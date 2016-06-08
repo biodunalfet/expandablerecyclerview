@@ -3,7 +3,7 @@ package com.sjrnr.hamza.expandablerecyclerview;
 /**
  * Created by Hamza Fetuga on 5/31/2016.
  */
-public class Friends extends Entities
+public class Friend extends Entity
 {
 
     @Override

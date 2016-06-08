@@ -3,7 +3,7 @@ package com.sjrnr.hamza.expandablerecyclerview;
 /**
  * Created by Hamza Fetuga on 5/31/2016.
  */
-public class Person extends Entities
+public class Person extends Entity
 {
     @Override
     public boolean isParent() {
@@ -12,7 +12,7 @@ public class Person extends Entities
 
     private String id;
 
-    private Friends[] friends;
+    private Friend[] friends;
 
     private boolean childrenVisible;
 
@@ -36,12 +36,12 @@ public class Person extends Entities
         this.id = id;
     }
 
-    public Friends[] getFriends ()
+    public Friend[] getFriends ()
     {
         return friends;
     }
 
-    public void setFriends (Friends[] friends)
+    public void setFriends (Friend[] friends)
     {
         this.friends = friends;
     }
