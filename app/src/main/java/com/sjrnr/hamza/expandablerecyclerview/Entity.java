@@ -3,7 +3,7 @@ package com.sjrnr.hamza.expandablerecyclerview;
 /**
  * Created by Hamza Fetuga on 6/1/2016.
  */
-public class Entities {
+public class Entity {
 
     public boolean isParent;
 

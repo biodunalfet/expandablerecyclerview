@@ -5,7 +5,7 @@ package com.sjrnr.hamza.expandablerecyclerview;
  */
 
 
-public class Data extends Entities {
+public class Data extends Entity {
     private String id;
 
     private String skill;
