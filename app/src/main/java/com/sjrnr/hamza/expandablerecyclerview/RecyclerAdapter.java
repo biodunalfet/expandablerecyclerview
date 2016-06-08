@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -27,13 +24,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static final int CHILD = 0;
     public static final int PARENT = 1;
-    String dataAsJSON = "";
-    Context context;
     static List<Person> datas = new ArrayList<>();
     static List<Integer> children = new ArrayList<>();
     static RecyclerAdapter recyclerAdapter;
     public RecyclerView recyclerView;
-    static List<Entities> general;
+    static List<Entity> general;
 
     public RecyclerAdapter(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
@@ -53,9 +48,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             general.add(person);
             children.add(0);
             person.setChildrenVisible(false);
-            Friends[] friendses = person.getFriends();
-            for (int y = 0; y < friendses.length; y++){
-                Friends f = friendses[y];
+            Friend[] friends = person.getFriends();
+            for (int y = 0; y < friends.length; y++){
+                Friend f = friends[y];
                 f.setParentID(String.valueOf(x));
             }
         }
@@ -95,27 +90,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 //collapse list
                 if (person.isChildrenVisible()){
                     person.setChildrenVisible(false);
-                    Friends[] friendses = person.getFriends();
-                    for (int i = id + 1; i < (id + 1 + friendses.length); i++){
+                    Friend[] friends = person.getFriends();
+                    for (int i = id + 1; i < (id + 1 + friends.length); i++){
                         general.remove(id+1);
                     }
                     Log.d("general size is ", general.size()+"");
 
-                    recyclerAdapter.notifyItemRangeRemoved(id + 1, friendses.length);
+                    recyclerAdapter.notifyItemRangeRemoved(id + 1, friends.length);
                 }
                 //expand list
                 else {
                     person.setChildrenVisible(true);
-                    Friends[] friendses = person.getFriends();
+                    Friend[] friends = person.getFriends();
                     int index = 0;
 
-                    for (int i = id + 1; i < (id + 1 + friendses.length); i++){
-                        general.add(i, friendses[index]);
+                    for (int i = id + 1; i < (id + 1 + friends.length); i++){
+                        general.add(i, friends[index]);
                         index++;
                     }
 
 
-                    recyclerAdapter.notifyItemRangeInserted(id + 1, friendses.length);
+                    recyclerAdapter.notifyItemRangeInserted(id + 1, friends.length);
                 }
 
                 //fix this
@@ -234,7 +229,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             TextView parentID = ((ChildViewHolder)holder).parentID;
             TextView text = ((ChildViewHolder)holder).text;
 
-            Friends friend = (Friends) general.get(position);
+            Friend friend = (Friend) general.get(position);
             viewID.setText(friend.getId());
             parentID.setText(friend.getParentID());
             text.setText(friend.getName());
@@ -255,22 +250,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        //int calcSize = getSize();
-        //Log.d("getSize() = ", calcSize+"");
-        //Log.d("general = ", general+"");
         Log.d("general size = ", general.size()+"");
         return general.size();
     }
 
-    public int getSize(){
-        int childrenSize = 0;
-        int parentSize = datas.size();
-        for (int i = 0; i < parentSize; i++){
-            Person p = datas.get(i);
-            if (p.isChildrenVisible()){
-                childrenSize += p.getFriends().length;
-            }
-        }
-        return childrenSize + parentSize;
-    }
+
 }
